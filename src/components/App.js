@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithImage from "./PopupWithImage";
+import ImagePopup from "./ImagePopup";
 import PopupEditProfile from "./PopupEditProfile";
 import PopupEditAvatar from "./PopupEditAvatar";
 import PopupAddCard from "./PopupAddCard";
@@ -65,7 +65,7 @@ function App() {
         isOpen = {isAddCardPopupOpen}
         onClose = {closeAllPopups}
       />
-      <PopupWithImage
+      <ImagePopup
         isOpen = {isImagePopupOpen}
         onClose = {closeAllPopups}
         card = {selectedCard}
