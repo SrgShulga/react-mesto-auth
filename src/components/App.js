@@ -43,7 +43,7 @@ function App() {
   }
 
   return (
-    <div className="page">
+    <>
       <Header />
       <Main
         onEditProfile={handleEditProfileClick}
@@ -70,7 +70,7 @@ function App() {
         onClose={closeAllPopups}
         card={selectedCard}
       />
-    </div>
+    </>
   )
 }
 
