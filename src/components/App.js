@@ -26,7 +26,7 @@ function App() {
     setIsAddCardPopupOpen(true)
   }
 
-  function handleCardClick (card) {
+  function handleCardClick(card) {
     setImagePopupOpen(true)
     setSelectedCard({
       name: card.name,
@@ -45,31 +45,31 @@ function App() {
   return (
     <div className="page">
       <Header />
-      <Main 
-        onEditProfile = {handleEditProfileClick}
-        onEditAvatar = {handleEditAvatarClick}
-        onAddCard = {handleAddCardClick}
-        onCardClick = {handleCardClick}
-        
+      <Main
+        onEditProfile={handleEditProfileClick}
+        onEditAvatar={handleEditAvatarClick}
+        onAddCard={handleAddCardClick}
+        onCardClick={handleCardClick}
+
       />
       <Footer />
-      <PopupEditProfile 
-        isOpen = {isEditProfilePopupOpen}
-        onClose = {closeAllPopups}
+      <PopupEditProfile
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       />
       <PopupEditAvatar
-        isOpen = {isEditAvatarPopupOpen}
-        onClose = {closeAllPopups}
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
       />
       <PopupAddCard
-        isOpen = {isAddCardPopupOpen}
-        onClose = {closeAllPopups}
+        isOpen={isAddCardPopupOpen}
+        onClose={closeAllPopups}
       />
       <ImagePopup
-        isOpen = {isImagePopupOpen}
-        onClose = {closeAllPopups}
-        card = {selectedCard}
-        />
+        isOpen={isImagePopupOpen}
+        onClose={closeAllPopups}
+        card={selectedCard}
+      />
     </div>
   )
 }

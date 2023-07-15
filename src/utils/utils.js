@@ -33,6 +33,6 @@ export const apiTemplate = {
   link: 'https://mesto.nomoreparties.co/v1/cohort-69/',
   headers: {
     authorization: '8fc2957f-2020-49fa-85f3-4e55c8e087dd',
-    'Content-Type':  'application/json'
+    'Content-Type': 'application/json'
   }
 };

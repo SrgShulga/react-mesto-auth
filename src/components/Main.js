@@ -24,7 +24,7 @@ function Main(props) {
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img src={userAvatar} className="profile__avatar" alt="Изображение профиля"/>
+          <img src={userAvatar} className="profile__avatar" alt="Изображение профиля" />
           <button className="profile__avatar-edit" type="button" aria-label="Редактировать фото профиля" onClick={props.onEditAvatar}></button>
         </div>
         <div className="profile__info">
@@ -39,12 +39,13 @@ function Main(props) {
       <section className="elements-container">
         <ul className="element">
           {cards.map((card) => (
-            <Card 
-            link = {card.link}
-            name = {card.name}
-            onCardClick = {props.onCardClick}
-            card = {card}
-            key = {card._id}
+            <Card
+              link={card.link}
+              name={card.name}
+              onCardClick={props.onCardClick}
+              card={card}
+              key={card._id}
+              likes={card.likes.length}
             />
           ))}
         </ul>

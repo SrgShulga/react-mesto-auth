@@ -1,12 +1,12 @@
 import { apiTemplate } from "./utils";
 
 export class Api {
-  constructor({link, headers}) {
+  constructor({ link, headers }) {
     this._link = link;
     this._headers = headers;
   }
 
-  _serverResponse(res) {
+  _checkServerResponse(res) {
     if (res.ok) {
       return res.json();
     } else {
@@ -19,7 +19,7 @@ export class Api {
       headers: this._headers,
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 
@@ -28,7 +28,7 @@ export class Api {
       headers: this._headers
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 
@@ -41,19 +41,19 @@ export class Api {
         about: profileInfo.userDescription
       })
     })
-    .then(res => {
-      return this._serverResponse(res);
-    })
+      .then(res => {
+        return this._checkServerResponse(res);
+      })
   }
 
-  createNewCard({name, link}) {
+  createNewCard({ name, link }) {
     return fetch(`${this._link}cards`, {
       headers: this._headers,
       method: 'POST',
-      body: JSON.stringify({name, link})
+      body: JSON.stringify({ name, link })
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 
@@ -63,7 +63,7 @@ export class Api {
       method: 'DELETE'
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 
@@ -72,8 +72,8 @@ export class Api {
       headers: this._headers,
       method: 'PUT'
     })
-      .then(res =>{
-        return this._serverResponse(res);
+      .then(res => {
+        return this._checkServerResponse(res);
       })
   }
 
@@ -83,7 +83,7 @@ export class Api {
       method: 'DELETE'
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 
@@ -94,7 +94,7 @@ export class Api {
       body: JSON.stringify({ avatar: link.avatarUrl })
     })
       .then(res => {
-        return this._serverResponse(res);
+        return this._checkServerResponse(res);
       })
   }
 };
