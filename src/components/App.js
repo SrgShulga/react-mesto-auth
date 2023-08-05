@@ -51,9 +51,8 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     apiRequest.changeCardLikeStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
-      })
+      .then((newCard) => { setCards((state) => state.map((c) => c._id === card._id ? newCard : c)) })
+      .catch((err) => { console.log(`Произошла ошибка при добавлении/удалении "мне нравится"${err}`) })
   }
 
   function handleCardDelete(card) {

@@ -50,7 +50,7 @@ export class Api {
     return fetch(`${this._link}cards`, {
       headers: this._headers,
       method: 'POST',
-      body: JSON.stringify({ name, link})
+      body: JSON.stringify({ name, link })
     })
       .then(res => {
         return this._checkServerResponse(res);
@@ -77,13 +77,13 @@ export class Api {
           return this._checkServerResponse(res);
         })
     } else {
-        return fetch(`${this._link}/cards/${cardId}/likes`, {
-          headers: this._headers,
-          method: 'DELETE'
+      return fetch(`${this._link}/cards/${cardId}/likes`, {
+        headers: this._headers,
+        method: 'DELETE'
+      })
+        .then(res => {
+          return this._checkServerResponse(res);
         })
-          .then(res => {
-            return this._checkServerResponse(res);
-          })
     }
   }
 
