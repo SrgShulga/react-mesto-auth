@@ -32,13 +32,13 @@ export class Api {
       })
   }
 
-  sendUserInfo(profileInfo) {
+  sendUserInfo(userName, userDescription) {
     return fetch(`${this._link}users/me`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        name: profileInfo.userName,
-        about: profileInfo.userDescription
+        name: userName,
+        about: userDescription
       })
     })
       .then(res => {
@@ -46,11 +46,11 @@ export class Api {
       })
   }
 
-  createNewCard({ name, link }) {
+  createNewCard(name, link) {
     return fetch(`${this._link}cards`, {
       headers: this._headers,
       method: 'POST',
-      body: JSON.stringify({ name, link })
+      body: JSON.stringify({ name, link})
     })
       .then(res => {
         return this._checkServerResponse(res);
@@ -67,31 +67,31 @@ export class Api {
       })
   }
 
-  putCardLike(cardId) {
-    return fetch(`${this._link}/cards/${cardId}/likes`, {
-      headers: this._headers,
-      method: 'PUT'
-    })
-      .then(res => {
-        return this._checkServerResponse(res);
+  changeCardLikeStatus(cardId, isLiked) {
+    if (isLiked) {
+      return fetch(`${this._link}/cards/${cardId}/likes`, {
+        headers: this._headers,
+        method: 'PUT'
       })
+        .then(res => {
+          return this._checkServerResponse(res);
+        })
+    } else {
+        return fetch(`${this._link}/cards/${cardId}/likes`, {
+          headers: this._headers,
+          method: 'DELETE'
+        })
+          .then(res => {
+            return this._checkServerResponse(res);
+          })
+    }
   }
 
-  deleteCardLike(cardId) {
-    return fetch(`${this._link}/cards/${cardId}/likes`, {
-      headers: this._headers,
-      method: 'DELETE'
-    })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
-  }
-
-  sendAvatarData(link) {
+  sendAvatarData(avatarLink) {
     return fetch(`${this._link}/users/me/avatar`, {
       headers: this._headers,
       method: 'PATCH',
-      body: JSON.stringify({ avatar: link.avatarUrl })
+      body: JSON.stringify({ avatar: avatarLink.avatar })
     })
       .then(res => {
         return this._checkServerResponse(res);
