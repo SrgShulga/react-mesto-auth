@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Route, Routes, useNavigate} from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -7,7 +8,12 @@ import PopupEditProfile from "./PopupEditProfile";
 import PopupEditAvatar from "./PopupEditAvatar";
 import PopupAddCard from "./PopupAddCard";
 import { apiRequest } from "../utils/Api";
+import authApi from "../utils/AuthApi";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 
 
 function App() {
@@ -18,7 +24,13 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState(false);
+  const [isInfoToolOpen, setInfoToolOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([apiRequest.getUserInfo(), apiRequest.getInitialCards()])
@@ -28,6 +40,14 @@ function App() {
       })
       .catch((err) => console.log(`Возникла ошибка при получении данных с сервера: ${err}`))
   }, [])
+
+  useEffect( () => {
+    const userToken = localStorage.getItem('token')
+    if (userToken) { authApi.checkToken(userToken)
+        .then( (res) => { setEmail(res.data.email); setLoggedIn(true); navigate('/', {replace: true}) })
+        .catch( (err) => { console.log(`Возникла ошибка верификации токена, ${err}`) })
+    }
+  }, [navigate, isLoggedIn])
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true)
@@ -85,21 +105,57 @@ function App() {
     setAddCardPopupOpen(false)
     setImagePopupOpen(false)
     setSelectedCard({})
+    setInfoToolOpen(false)
   }
+
+  function handleRegister(password, email) {
+    authApi.userRegister(password, email)
+    .then((res) => navigate('/sign-in', {replace: true}))
+    .catch((err) => {console.log(`При регистрации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false)})
+  }
+
+  function handleLogin (password, email) {
+    authApi.userAuthorize(password, email)
+      .then( (res) => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setEmail(email);
+          setLoggedIn(true);
+          navigate('/', {replace: true});
+        }
+      })
+      .catch((err) => {console.log(`При авторизации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false)})
+  }
+
+  function handleLogout () {
+    localStorage.removeItem('token'); 
+    setLoggedIn(false);
+  }
+
 
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        <Main
+      <Header 
+        email={email} 
+        isLoggedIn={isLoggedIn} 
+        isLogout={handleLogout}/>
+      <Routes>
+        <Route path='*' element={
+          <ProtectedRoute 
+          element={Main}
+          cards={cards} 
+          isLoggedIn = { isLoggedIn }
           onEditProfile={handleEditProfileClick}
           onEditAvatar={handleEditAvatarClick}
           onAddCard={handleAddCardClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
-          cards={cards}
-        />
+        />}/>
+        <Route path="/sign-up" element={<Register handleRegister={handleRegister} />} />
+        <Route path="sign-in" element={<Login handleLogin={handleLogin} />} />
+      </Routes>
         <Footer />
         <PopupEditProfile
           isOpen={isEditProfilePopupOpen}
@@ -120,6 +176,11 @@ function App() {
           isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
           card={selectedCard}
+        />
+        <InfoTooltip 
+          isOpen={isInfoToolOpen}
+          onClose={closeAllPopups}
+          status={status}
         />
       </CurrentUserContext.Provider>
     </>

@@ -18,18 +18,14 @@ export class Api {
     return fetch(`${this._link}users/me`, {
       headers: this._headers,
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 
   getInitialCards() {
     return fetch(`${this._link}cards`, {
       headers: this._headers
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 
   sendUserInfo(userName, userDescription) {
@@ -41,9 +37,7 @@ export class Api {
         about: userDescription
       })
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 
   createNewCard(name, link) {
@@ -52,9 +46,7 @@ export class Api {
       method: 'POST',
       body: JSON.stringify({ name, link })
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 
   deleteCard(cardId) {
@@ -62,9 +54,7 @@ export class Api {
       headers: this._headers,
       method: 'DELETE'
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 
   changeCardLikeStatus(cardId, isLiked) {
@@ -73,17 +63,13 @@ export class Api {
         headers: this._headers,
         method: 'PUT'
       })
-        .then(res => {
-          return this._checkServerResponse(res);
-        })
+        .then(this._checkServerResponse)
     } else {
       return fetch(`${this._link}/cards/${cardId}/likes`, {
         headers: this._headers,
         method: 'DELETE'
       })
-        .then(res => {
-          return this._checkServerResponse(res);
-        })
+        .then(this._checkServerResponse)
     }
   }
 
@@ -93,9 +79,7 @@ export class Api {
       method: 'PATCH',
       body: JSON.stringify({ avatar: avatarLink.avatar })
     })
-      .then(res => {
-        return this._checkServerResponse(res);
-      })
+      .then(this._checkServerResponse)
   }
 };
 
