@@ -7,13 +7,15 @@
   text-decoration: none;
   margin: 0;
   padding-top: 7px;
+  transition: opacity 0.2s ease-in-out;
 }
 
-.header__menu-item:nth-child(2){
+.header__menu-item:nth-child(2) {
   padding-left: 24px;
   color: #A9A9A9;
 }
 
-.header__menu-item:link {
+.header__menu-item:link:hover {
   cursor: pointer;
+  opacity: 0.6;
 }
