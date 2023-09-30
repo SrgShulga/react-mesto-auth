@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -41,11 +41,12 @@ function App() {
       .catch((err) => console.log(`Возникла ошибка при получении данных с сервера: ${err}`))
   }, [])
 
-  useEffect( () => {
+  useEffect(() => {
     const userToken = localStorage.getItem('token')
-    if (userToken) { authApi.checkToken(userToken)
-        .then( (res) => { setEmail(res.data.email); setLoggedIn(true); navigate('/', {replace: true}) })
-        .catch( (err) => { console.log(`Возникла ошибка верификации токена, ${err}`) })
+    if (userToken) {
+      authApi.checkToken(userToken)
+        .then((res) => { setEmail(res.data.email); setLoggedIn(true); navigate('/', { replace: true }) })
+        .catch((err) => { console.log(`Возникла ошибка верификации токена, ${err}`) })
     }
   }, [navigate, isLoggedIn])
 
@@ -110,25 +111,25 @@ function App() {
 
   function handleRegister(password, email) {
     authApi.userRegister(password, email)
-    .then((res) => navigate('/sign-in', {replace: true}))
-    .catch((err) => {console.log(`При регистрации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false)})
+      .then(() => { navigate('/sign-in', { replace: true }); setInfoToolOpen(true); setStatus(true) })
+      .catch((err) => { console.log(`При регистрации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false) })
   }
 
-  function handleLogin (password, email) {
+  function handleLogin(password, email) {
     authApi.userAuthorize(password, email)
-      .then( (res) => {
+      .then((res) => {
         if (res.token) {
           localStorage.setItem('token', res.token);
           setEmail(email);
           setLoggedIn(true);
-          navigate('/', {replace: true});
+          navigate('/', { replace: true });
         }
       })
-      .catch((err) => {console.log(`При авторизации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false)})
+      .catch((err) => { console.log(`При авторизации произошла ошибка ${err}`); setInfoToolOpen(true); setStatus(false) })
   }
 
-  function handleLogout () {
-    localStorage.removeItem('token'); 
+  function handleLogout() {
+    localStorage.removeItem('token');
     setLoggedIn(false);
   }
 
@@ -136,26 +137,26 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-      <Header 
-        email={email} 
-        isLoggedIn={isLoggedIn} 
-        isLogout={handleLogout}/>
-      <Routes>
-        <Route path='*' element={
-          <ProtectedRoute 
-          element={Main}
-          cards={cards} 
-          isLoggedIn = { isLoggedIn }
-          onEditProfile={handleEditProfileClick}
-          onEditAvatar={handleEditAvatarClick}
-          onAddCard={handleAddCardClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />}/>
-        <Route path="/sign-up" element={<Register handleRegister={handleRegister} />} />
-        <Route path="sign-in" element={<Login handleLogin={handleLogin} />} />
-      </Routes>
+        <Header
+          email={email}
+          isLoggedIn={isLoggedIn}
+          isLogout={handleLogout} />
+        <Routes>
+          <Route path='*' element={
+            <ProtectedRoute
+              element={Main}
+              cards={cards}
+              isLoggedIn={isLoggedIn}
+              onEditProfile={handleEditProfileClick}
+              onEditAvatar={handleEditAvatarClick}
+              onAddCard={handleAddCardClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+            />} />
+          <Route path="/sign-up" element={<Register handleRegister={handleRegister} />} />
+          <Route path="sign-in" element={<Login handleLogin={handleLogin} />} />
+        </Routes>
         <Footer />
         <PopupEditProfile
           isOpen={isEditProfilePopupOpen}
@@ -177,7 +178,7 @@ function App() {
           onClose={closeAllPopups}
           card={selectedCard}
         />
-        <InfoTooltip 
+        <InfoTooltip
           isOpen={isInfoToolOpen}
           onClose={closeAllPopups}
           status={status}

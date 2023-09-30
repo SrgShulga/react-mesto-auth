@@ -44,7 +44,7 @@ function PopupEditProfile(props) {
           <span className="username-input-error popup__input-error"></span>
         </label>
         <label htmlFor="description-input" className="popup__label">
-          <input id="description-input" value={description?? ''} onChange={handleChangeDescription} className="popup__input popup__input_data_description" minLength="2" maxLength="200" name="userDescription" placeholder="О себе" required />
+          <input id="description-input" value={description ?? ''} onChange={handleChangeDescription} className="popup__input popup__input_data_description" minLength="2" maxLength="200" name="userDescription" placeholder="О себе" required />
           <span className="description-input-error popup__input-error"></span>
         </label>
       </>
